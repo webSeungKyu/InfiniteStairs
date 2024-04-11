@@ -40,7 +40,8 @@ public class GamaManager : MonoBehaviour
     public GameObject rightButton;
     public Sprite basicButtonImage;
     public Sprite clickButtonImage;
-
+    [Header("일시정지 활성화")]
+    public bool pause = false;
 
 
 
@@ -274,6 +275,27 @@ public class GamaManager : MonoBehaviour
         if (burnning)
         {
             StartCoroutine("Burning");
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TimeStop();
+        }
+    }
+    /// <summary>
+    /// 시간 정지 기능 호출할 때마다 pause를 true / false로 바꾼다
+    /// </summary>
+    public void TimeStop()
+    {
+        if (pause)
+        {
+            pause = false;
+            Time.timeScale = 1f;
+        }
+        else
+        {
+            Time.timeScale = 0f;
+            pause = true;
         }
     }
 
