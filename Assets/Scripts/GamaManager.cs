@@ -27,7 +27,7 @@ public class GamaManager : MonoBehaviour
     {
         Dictionary<int, GameObject> blockList = new Dictionary<int, GameObject>();
         List<GameObject> block = new List<GameObject>(GameObject.FindGameObjectsWithTag("LeftBlock"));
-        
+
         for (int i = 0; i < block.Count; i++)
         {
             int blockNum = Convert.ToInt32(block[i].name.Replace("LeftBlock", ""));
@@ -35,7 +35,7 @@ public class GamaManager : MonoBehaviour
         }
 
         List<GameObject> returnList = new List<GameObject>();
-        foreach (var i in  blockList.OrderBy(item => item.Key))
+        foreach (var i in blockList.OrderBy(item => item.Key))
         {
             returnList.Add(i.Value);
         }
@@ -87,6 +87,45 @@ public class GamaManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 플레이어 위치와 클릭한 버튼(L, R)의 string 값을 주면 맞게 이동했는지 return
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <param name="move"></param>
+    /// <returns></returns>
+    public bool MoveCheck(Transform transform, string move)
+    {
+        Transform leftPos = FindCloseLeftBlock().transform; // 1.5 // 만약 트랜스폼은 0
+        Transform rightPos = FindCloseRightBlock().transform; // 3
+
+        if (move.Equals("L"))
+        {
+            if ((transform.position.y + leftPos.position.y) < (transform.position.y + rightPos.position.y))
+            {
+                return true;
+            }else
+            {
+                return false;
+            }
+        }
+        else if(move.Equals("R"))
+        {
+            if ((transform.position.y + rightPos.position.y) < (transform.position.y + leftPos.position.y))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        
+
+
+
+        return true;
+    }
+
+    /// <summary>
     /// GameObject의 태그를 변경할 때 사용
     /// </summary>
     /// <param name="gameObject">Block로 바뀐다</param>
@@ -101,7 +140,7 @@ public class GamaManager : MonoBehaviour
         {
             Instance = this;
         }
-        else if(Instance != this)
+        else if (Instance != this)
         {
             //이미 생성되어있다면 새로 만든 거 삭제
             Destroy(this.gameObject);
@@ -121,7 +160,7 @@ public class GamaManager : MonoBehaviour
         for (int i = 0; i < 20; i++)
         {
             int ranNum = Random.Range(0, 2);
-            if(ranNum > 0) 
+            if (ranNum > 0)
             {
                 leftBlockNum++;
                 pos = new Vector2(pos.x - 1.5f, pos.y + 1.5f);
@@ -142,16 +181,12 @@ public class GamaManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         InstantiateBlock();
-        Debug.Log("왼쪽 블럭" + leftBlockNum);
-        Debug.Log("오른쪽 블럭" + rightBlockNum);
-        totalBlockNum = leftBlockNum + rightBlockNum;
-        Debug.Log("전체" + totalBlockNum);
 
     }
 
 
     void Update()
     {
-        
+
     }
 }
