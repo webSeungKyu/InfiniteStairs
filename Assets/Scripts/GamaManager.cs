@@ -17,7 +17,7 @@ public class GamaManager : MonoBehaviour
     public GameObject rightBlockPrefab;
 
     [Header("생성할 Block 개수 설정")]
-    public int blockSetting = 20;
+    public int blockSetting = 50;
 
     [Header("생성한 Block 개수")]
     public int leftBlockNum = 0;
@@ -31,8 +31,10 @@ public class GamaManager : MonoBehaviour
     [Header("점수")]
     public int score;
     public TextMeshProUGUI scoreText;
-    [Header("에너지 및 스테이지 게이지")]
-    public GameObject stageBar;
+    [Header("에너지 게이지")]
+    public GameObject energyBar;
+    public bool burnning = false;
+    public bool fillAmountMax = false;
 
 
 
@@ -119,19 +121,11 @@ public class GamaManager : MonoBehaviour
             if ((transform.position.y + leftPos.position.y) < (transform.position.y + rightPos.position.y))
             {
                 score++;
-                stageBar.GetComponent<Image>().fillAmount -= 0.03f;
-                return true;
-            }else
-            {
-                return false;
-            }
-        }
-        else if(move.Equals("R"))
-        {
-            if ((transform.position.y + rightPos.position.y) < (transform.position.y + leftPos.position.y))
-            {
-                score++;
-                stageBar.GetComponent<Image>().fillAmount -= 0.03f;
+                if (!fillAmountMax)
+                {
+                    energyBar.GetComponent<Image>().fillAmount += 0.03f;
+                }
+
                 return true;
             }
             else
@@ -139,7 +133,23 @@ public class GamaManager : MonoBehaviour
                 return false;
             }
         }
-        
+        else if (move.Equals("R"))
+        {
+            if ((transform.position.y + rightPos.position.y) < (transform.position.y + leftPos.position.y))
+            {
+                score++;
+                if (!fillAmountMax)
+                {
+                    energyBar.GetComponent<Image>().fillAmount += 0.03f;
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
 
         //나중에 else if(버닝) 등으로 게이지 꽉 찰 시 무조건 true만 반환하게 하면 될 듯
 
@@ -200,8 +210,8 @@ public class GamaManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         InstantiateBlock();
-        InvokeRepeating("InfiniteBlockSetting", 1f, 2f);
-        background.GetComponent<SpriteRenderer>().sprite = imageLists[0];
+        InvokeRepeating("InfiniteBlockSetting", 1f, 1f);
+        energyBar.GetComponent<Image>().fillAmount = 0;
     }
 
     /// <summary>
@@ -214,7 +224,7 @@ public class GamaManager : MonoBehaviour
 
         if (blockSetting > leftBlockNum + rightBlockNum)
         {
-            int temp = totalBlockNum +1;
+            int temp = totalBlockNum + 1;
             Vector2 pos = MaxBlockReturn().position;
             for (int i = temp; i <= temp + blockSetting; i++)
             {
@@ -252,5 +262,40 @@ public class GamaManager : MonoBehaviour
     void Update()
     {
         scoreText.text = score.ToString();
+        StartCoroutine("BurnningCheck");
+        if (burnning)
+        {
+            StartCoroutine("Burning");
+        }
+    }
+
+    /// <summary>
+    /// 에너지 이미지의 fillAmount가 1이 되면 필드의 fillAmount true로 바꿔준다
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator BurnningCheck()
+    {
+        if (energyBar.GetComponent<Image>().fillAmount == 1)
+        {
+            burnning = true;
+            fillAmountMax = true;
+        }
+        yield return null;
+    }
+
+    /// <summary>
+    /// burnning을 false로 바꾸고 색을 빨간색으로 변경한다. 10초 뒤 다시 색이 변한다.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator Burning()
+    {
+        energyBar.GetComponent<Image>().color = Color.red;
+        yield return new WaitForSeconds(10);
+        energyBar.GetComponent<Image>().fillAmount = 0;
+        energyBar.GetComponent<Image>().color = Color.white;
+        burnning = false;
+        fillAmountMax = false;
+        
+
     }
 }

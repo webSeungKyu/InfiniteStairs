@@ -21,6 +21,15 @@ public class PlayerController : MonoBehaviour
         {
             MovementRight();
         }
+        if (Input.GetKeyDown(KeyCode.Space) && GamaManager.Instance.burnning)
+        {
+            MovementLeft();
+            MovementRight();
+            MovementRight();
+            MovementLeft();
+        }
+
+
     }
 
     /// <summary>
@@ -30,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         if(GamaManager.Instance.MoveCheck(transform, "L"))
         {
+            transform.GetComponent<SpriteRenderer>().flipX = true;
             GameObject findCloseBlock = GamaManager.Instance.FindCloseLeftBlock();
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
             GamaManager.Instance.ChangeTag(findCloseBlock);
@@ -43,6 +53,7 @@ public class PlayerController : MonoBehaviour
     {   
         if(GamaManager.Instance.MoveCheck(transform, "R"))
         {
+            transform.GetComponent<SpriteRenderer>().flipX = false;
             GameObject findCloseBlock = GamaManager.Instance.FindCloseRightBlock();
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
             GamaManager.Instance.ChangeTag(findCloseBlock);
