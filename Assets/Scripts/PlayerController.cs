@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
     {
         if(GamaManager.Instance.MoveCheck(transform, "L"))
         {
+            SoundManager.Instance.AudioPlayOneShot(0);
             transform.GetComponent<SpriteRenderer>().flipX = true;
             GameObject findCloseBlock = GamaManager.Instance.FindCloseLeftBlock();
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
@@ -53,6 +54,7 @@ public class PlayerController : MonoBehaviour
     {   
         if(GamaManager.Instance.MoveCheck(transform, "R"))
         {
+            SoundManager.Instance.AudioPlayOneShot(0);
             transform.GetComponent<SpriteRenderer>().flipX = false;
             GameObject findCloseBlock = GamaManager.Instance.FindCloseRightBlock();
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
