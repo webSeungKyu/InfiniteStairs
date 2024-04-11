@@ -89,8 +89,8 @@ public class GamaManager : MonoBehaviour
     /// <summary>
     /// 플레이어 위치와 클릭한 버튼(L, R)의 string 값을 주면 맞게 이동했는지 return
     /// </summary>
-    /// <param name="transform"></param>
-    /// <param name="move"></param>
+    /// <param name="transform">플레이어의 위치</param>
+    /// <param name="move">L 또는 R string으로</param>
     /// <returns></returns>
     public bool MoveCheck(Transform transform, string move)
     {
