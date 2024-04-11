@@ -13,6 +13,6 @@ public class CameraManager : MonoBehaviour
     
     void Update()
     {
-        gameObject.transform.position =  new Vector3(player.transform.position.x, player.transform.position.y, -10);
+        gameObject.transform.position =  new Vector3(player.transform.position.x, player.transform.position.y +2, -10);
     }
 }

@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class GamaManager : MonoBehaviour
@@ -22,8 +24,16 @@ public class GamaManager : MonoBehaviour
     public int rightBlockNum = 0;
     public int totalBlockNum = 0;
 
+    [Header("배경 이미지")]
+    public GameObject background;
+    public List<Sprite> imageLists;
 
-    
+    [Header("점수")]
+    public int score;
+    public TextMeshProUGUI scoreText;
+    [Header("에너지 및 스테이지 게이지")]
+    public GameObject stageBar;
+
 
 
     /// <summary>
@@ -108,6 +118,8 @@ public class GamaManager : MonoBehaviour
         {
             if ((transform.position.y + leftPos.position.y) < (transform.position.y + rightPos.position.y))
             {
+                score++;
+                stageBar.GetComponent<Image>().fillAmount -= 0.03f;
                 return true;
             }else
             {
@@ -118,6 +130,8 @@ public class GamaManager : MonoBehaviour
         {
             if ((transform.position.y + rightPos.position.y) < (transform.position.y + leftPos.position.y))
             {
+                score++;
+                stageBar.GetComponent<Image>().fillAmount -= 0.03f;
                 return true;
             }
             else
@@ -187,7 +201,7 @@ public class GamaManager : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         InstantiateBlock();
         InvokeRepeating("InfiniteBlockSetting", 1f, 2f);
-
+        background.GetComponent<SpriteRenderer>().sprite = imageLists[0];
     }
 
     /// <summary>
@@ -237,6 +251,6 @@ public class GamaManager : MonoBehaviour
 
     void Update()
     {
-        
+        scoreText.text = score.ToString();
     }
 }
