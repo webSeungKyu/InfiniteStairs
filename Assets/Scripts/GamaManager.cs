@@ -13,16 +13,23 @@ public class GamaManager : MonoBehaviour
     [Header("생성할 프리팹 Block")]
     public GameObject leftBlockPrefab;
     public GameObject rightBlockPrefab;
+
+    [Header("생성할 Block 개수 설정")]
+    public int blockSetting = 20;
+
     [Header("생성한 Block 개수")]
     public int leftBlockNum = 0;
     public int rightBlockNum = 0;
     public int totalBlockNum = 0;
 
 
+    
+
+
     /// <summary>
-    /// 태그가 LeftBlock인 List<GameObject>가 필요할 때 사용
+    /// 태그가 LeftBlock인 GameObject가 필요할 때 사용
     /// </summary>
-    /// <returns>List<GameObject></returns>
+    /// <returns>GameObject가 담긴 List를 반환</returns>
     public List<GameObject> LeftBlockList()
     {
         Dictionary<int, GameObject> blockList = new Dictionary<int, GameObject>();
@@ -30,7 +37,7 @@ public class GamaManager : MonoBehaviour
 
         for (int i = 0; i < block.Count; i++)
         {
-            int blockNum = Convert.ToInt32(block[i].name.Replace("LeftBlock", ""));
+            int blockNum = Convert.ToInt32(block[i].name);
             blockList.Add(blockNum, block[i]);
         }
 
@@ -43,9 +50,9 @@ public class GamaManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 태그가 RightBlock인 List<GameObject>가 필요할 때 사용
+    /// 태그가 LeftBlock인 GameObject가 필요할 때 사용
     /// </summary>
-    /// <returns>List<GameObject></returns>
+    /// <returns>GameObject가 담긴 List를 반환</returns>
     public List<GameObject> RightBlockList()
     {
         Dictionary<int, GameObject> blockList = new Dictionary<int, GameObject>();
@@ -53,7 +60,7 @@ public class GamaManager : MonoBehaviour
 
         for (int i = 0; i < block.Count; i++)
         {
-            int blockNum = Convert.ToInt32(block[i].name.Replace("RightBlock", ""));
+            int blockNum = Convert.ToInt32(block[i].name);
             blockList.Add(blockNum, block[i]);
         }
 
@@ -94,8 +101,8 @@ public class GamaManager : MonoBehaviour
     /// <returns></returns>
     public bool MoveCheck(Transform transform, string move)
     {
-        Transform leftPos = FindCloseLeftBlock().transform; // 1.5 // 만약 트랜스폼은 0
-        Transform rightPos = FindCloseRightBlock().transform; // 3
+        Transform leftPos = FindCloseLeftBlock().transform;
+        Transform rightPos = FindCloseRightBlock().transform;
 
         if (move.Equals("L"))
         {
@@ -120,9 +127,9 @@ public class GamaManager : MonoBehaviour
         }
         
 
+        //나중에 else if(버닝) 등으로 게이지 꽉 찰 시 무조건 true만 반환하게 하면 될 듯
 
-
-        return true;
+        return false;
     }
 
     /// <summary>
@@ -150,30 +157,28 @@ public class GamaManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// 처음 시작 시 랜덤한 블럭 생성
+    /// </summary>
     public void InstantiateBlock()
     {
-        int ranStartNum = Random.Range(0, 2);
         Vector2 pos = player.transform.position;
 
 
-        for (int i = 0; i < 20; i++)
+        for (int i = 1; i <= blockSetting; i++)
         {
             int ranNum = Random.Range(0, 2);
             if (ranNum > 0)
             {
-                leftBlockNum++;
                 pos = new Vector2(pos.x - 1.5f, pos.y + 1.5f);
-                Instantiate(leftBlockPrefab, pos, Quaternion.identity).name = leftBlockPrefab.name + $"{i}";
-
+                Instantiate(leftBlockPrefab, pos, Quaternion.identity).name = i.ToString();
             }
             else
             {
-                rightBlockNum++;
                 pos = new Vector2(pos.x + 1.5f, pos.y + 1.5f);
-                Instantiate(rightBlockPrefab, pos, Quaternion.identity).name = rightBlockPrefab.name + $"{i}";
+                Instantiate(rightBlockPrefab, pos, Quaternion.identity).name = i.ToString();
             }
-
+            totalBlockNum++;
 
         }
     }
@@ -181,12 +186,57 @@ public class GamaManager : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         InstantiateBlock();
+        InvokeRepeating("InfiniteBlockSetting", 1f, 2f);
 
     }
 
+    /// <summary>
+    /// 마지막 블럭 기준으로 랜덤한 블럭 생성
+    /// </summary>
+    void InfiniteBlockSetting()
+    {
+        leftBlockNum = LeftBlockList().Count;
+        rightBlockNum = RightBlockList().Count;
+
+        if (blockSetting > leftBlockNum + rightBlockNum)
+        {
+            int temp = totalBlockNum +1;
+            Vector2 pos = MaxBlockReturn().position;
+            for (int i = temp; i <= temp + blockSetting; i++)
+            {
+                int ranNum = Random.Range(0, 2);
+                if (ranNum > 0)
+                {
+                    pos = new Vector2(pos.x - 1.5f, pos.y + 1.5f);
+                    Instantiate(leftBlockPrefab, pos, Quaternion.identity).name = i.ToString();
+                }
+                else
+                {
+                    pos = new Vector2(pos.x + 1.5f, pos.y + 1.5f);
+                    Instantiate(rightBlockPrefab, pos, Quaternion.identity).name = i.ToString();
+                }
+                totalBlockNum++;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 끝에 있는 블럭의 위치를 확인할 수 있다.
+    /// </summary>
+    /// <returns>Transform으로 반환함</returns>
+    Transform MaxBlockReturn()
+    {
+        int MaxBlcok;
+        Transform pos;
+        int leftMaxBlockNum = Convert.ToInt32(LeftBlockList()[leftBlockNum - 1].name);
+        int rigthMaxBlockNum = Convert.ToInt32(RightBlockList()[rightBlockNum - 1].name);
+        MaxBlcok = Math.Max(leftMaxBlockNum, rigthMaxBlockNum);
+        pos = GameObject.Find(MaxBlcok.ToString()).transform;
+        return pos;
+    }
 
     void Update()
     {
-
+        
     }
 }
