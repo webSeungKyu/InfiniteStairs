@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 키보드 왼쪽 키를 누르면 왼쪽 블럭으로 이동
     /// </summary>
-    void MovementLeft()
+    public void MovementLeft()
     {
         if(GamaManager.Instance.MoveCheck(transform, "L"))
         {
@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// 키보드 오른쪽 키를 누르면 오른쪽 블럭으로 이동
     /// </summary>
-    void MovementRight()
+    public void MovementRight()
     {   
         if(GamaManager.Instance.MoveCheck(transform, "R"))
         {
