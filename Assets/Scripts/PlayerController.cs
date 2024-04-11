@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void MovementRight()
     {
-        
+        GamaManager.Instance.RightBlockList();
         //transform.position = new Vector2(block[0].transform.position.x, block[0].transform.position.y + 1);
     }
 }

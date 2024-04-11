@@ -28,7 +28,20 @@ public class GamaManager : MonoBehaviour
     }
     public void RightBlockList()
     {
+        Dictionary<int, GameObject> blockList = new Dictionary<int, GameObject>();
         List<GameObject> block = new List<GameObject>(GameObject.FindGameObjectsWithTag("RightBlock"));
+
+        for (int i = 0; i < block.Count; i++)
+        {
+            int blockNum = Convert.ToInt32(block[i].name.Replace("RightBlock", ""));
+            blockList.Add(blockNum, block[i]);
+        }
+
+
+        foreach (var i in blockList.OrderBy(item => item.Key))
+        {
+            Debug.Log(i);
+        }
     }
 
     private void Awake()
