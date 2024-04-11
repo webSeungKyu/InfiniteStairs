@@ -2,11 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GamaManager : MonoBehaviour
 {
     public static GamaManager Instance;
+    GameObject player;
+    [Header("생성할 프리팹 Block")]
+    public GameObject leftBlockPrefab;
+    public GameObject rightBlockPrefab;
+    [Header("생성한 Block 개수")]
+    public int leftBlockNum = 0;
+    public int rightBlockNum = 0;
+    public int totalBlockNum = 0;
 
 
     /// <summary>
@@ -27,7 +37,6 @@ public class GamaManager : MonoBehaviour
         List<GameObject> returnList = new List<GameObject>();
         foreach (var i in  blockList.OrderBy(item => item.Key))
         {
-            Debug.Log(i);
             returnList.Add(i.Value);
         }
         return returnList;
@@ -51,7 +60,6 @@ public class GamaManager : MonoBehaviour
         List<GameObject> returnList = new List<GameObject>();
         foreach (var i in blockList.OrderBy(item => item.Key))
         {
-            Debug.Log(i);
             returnList.Add(i.Value);
         }
         return returnList;
@@ -103,12 +111,45 @@ public class GamaManager : MonoBehaviour
 
     }
 
+
+    public void InstantiateBlock()
+    {
+        int ranStartNum = Random.Range(0, 2);
+        Vector2 pos = player.transform.position;
+
+
+        for (int i = 0; i < 20; i++)
+        {
+            int ranNum = Random.Range(0, 2);
+            if(ranNum > 0) 
+            {
+                leftBlockNum++;
+                pos = new Vector2(pos.x - 1.5f, pos.y + 1.5f);
+                Instantiate(leftBlockPrefab, pos, Quaternion.identity).name = leftBlockPrefab.name + $"{i}";
+
+            }
+            else
+            {
+                rightBlockNum++;
+                pos = new Vector2(pos.x + 1.5f, pos.y + 1.5f);
+                Instantiate(rightBlockPrefab, pos, Quaternion.identity).name = rightBlockPrefab.name + $"{i}";
+            }
+
+
+        }
+    }
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
+        InstantiateBlock();
+        Debug.Log("왼쪽 블럭" + leftBlockNum);
+        Debug.Log("오른쪽 블럭" + rightBlockNum);
+        totalBlockNum = leftBlockNum + rightBlockNum;
+        Debug.Log("전체" + totalBlockNum);
+
     }
 
-    
+
     void Update()
     {
         
