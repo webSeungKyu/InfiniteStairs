@@ -35,6 +35,14 @@ public class GamaManager : MonoBehaviour
     public GameObject energyBar;
     public bool burnning = false;
     public bool fillAmountMax = false;
+    [Header("버튼과 이미지")]
+    public GameObject leftButton;
+    public GameObject rightButton;
+    public Sprite basicButtonImage;
+    public Sprite clickButtonImage;
+
+
+
 
 
 
@@ -295,7 +303,34 @@ public class GamaManager : MonoBehaviour
         energyBar.GetComponent<Image>().color = Color.white;
         burnning = false;
         fillAmountMax = false;
+
+
+    }
+
+    
+    /// <summary>
+    /// 버튼 이미지를 잠시 바꾼다. string으로 "L" 또는 "R"을 줘야한다.
+    /// </summary>
+    /// <param name="click">L 또는 R</param>
+    /// <returns></returns>
+    IEnumerator ButtonChange(string click)
+    {
+        if (click.Equals("L"))
+        {
+            leftButton.GetComponent<Image>().sprite = clickButtonImage;
+            yield return new WaitForSeconds(0.2f);
+            leftButton.GetComponent<Image>().sprite = basicButtonImage;
+        }
+        else if(click.Equals("R"))
+        {
+            rightButton.GetComponent<Image>().sprite = clickButtonImage;
+            yield return new WaitForSeconds(0.2f);
+            rightButton.GetComponent<Image>().sprite = basicButtonImage;
+        }
+
         
 
     }
+
+
 }

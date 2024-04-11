@@ -941,8 +941,8 @@ RectTransform:
   - {fileID: 1752840484}
   - {fileID: 1042362479}
   - {fileID: 401025393}
-  - {fileID: 1048771975}
   - {fileID: 1866095251}
+  - {fileID: 1048771975}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1302,6 +1302,10 @@ MonoBehaviour:
   energyBar: {fileID: 401025392}
   burnning: 0
   fillAmountMax: 0
+  leftButton: {fileID: 1866095250}
+  rightButton: {fileID: 1048771974}
+  basicButtonImage: {fileID: 21300000, guid: 836f68d538b615845abfd15b210105a1, type: 3}
+  clickButtonImage: {fileID: 21300000, guid: f0a062c575b778b41a45d1119384eda6, type: 3}
 --- !u!1 &1752840483
 GameObject:
   m_ObjectHideFlags: 0

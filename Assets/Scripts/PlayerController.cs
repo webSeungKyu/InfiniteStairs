@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void MovementLeft()
     {
-        if(GamaManager.Instance.MoveCheck(transform, "L"))
+        GamaManager.Instance.StartCoroutine("ButtonChange", "L");
+        if (GamaManager.Instance.MoveCheck(transform, "L"))
         {
             SoundManager.Instance.AudioPlayOneShot(0);
             transform.GetComponent<SpriteRenderer>().flipX = true;
@@ -51,8 +52,9 @@ public class PlayerController : MonoBehaviour
     /// 키보드 오른쪽 키를 누르면 오른쪽 블럭으로 이동
     /// </summary>
     public void MovementRight()
-    {   
-        if(GamaManager.Instance.MoveCheck(transform, "R"))
+    {
+        GamaManager.Instance.StartCoroutine("ButtonChange", "R");
+        if (GamaManager.Instance.MoveCheck(transform, "R"))
         {
             SoundManager.Instance.AudioPlayOneShot(0);
             transform.GetComponent<SpriteRenderer>().flipX = false;
