@@ -28,15 +28,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void MovementLeft()
     {
-        GamaManager.Instance.LeftBlockList();
-        //transform.position = new Vector2(block[0].transform.position.x, block[0].transform.position.y + 1);
+        GameObject findCloseBlock = GamaManager.Instance.FindCloseLeftBlock();
+        transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
+        GamaManager.Instance.ChangeTag(findCloseBlock);
     }
     /// <summary>
     /// 키보드 오른쪽 키를 누르면 오른쪽 블럭으로 이동
     /// </summary>
     void MovementRight()
     {
-        GamaManager.Instance.RightBlockList();
-        //transform.position = new Vector2(block[0].transform.position.x, block[0].transform.position.y + 1);
+        GameObject findCloseBlock = GamaManager.Instance.FindCloseRightBlock();
+        transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
+        GamaManager.Instance.ChangeTag(findCloseBlock);
     }
 }
