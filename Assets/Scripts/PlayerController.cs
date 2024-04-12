@@ -34,14 +34,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void MovementLeft()
     {
-        GamaManager.Instance.StartCoroutine("ButtonChange", "L");
-        if (GamaManager.Instance.MoveCheck(transform, "L"))
+        GameManager.Instance.StartCoroutine("ButtonChange", "L");
+        if (GameManager.Instance.MoveCheck(transform, "L"))
         {
             SoundManager.Instance.AudioPlayOneShot(0);
             transform.GetComponent<SpriteRenderer>().flipX = true;
-            GameObject findCloseBlock = GamaManager.Instance.FindCloseLeftBlock();
+            GameObject findCloseBlock = GameManager.Instance.FindCloseLeftBlock();
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
-            GamaManager.Instance.ChangeTag(findCloseBlock);
+            GameManager.Instance.ChangeTag(findCloseBlock);
         }
         else
         {
@@ -54,14 +54,14 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void MovementRight()
     {
-        GamaManager.Instance.StartCoroutine("ButtonChange", "R");
-        if (GamaManager.Instance.MoveCheck(transform, "R"))
+        GameManager.Instance.StartCoroutine("ButtonChange", "R");
+        if (GameManager.Instance.MoveCheck(transform, "R"))
         {
             SoundManager.Instance.AudioPlayOneShot(0);
             transform.GetComponent<SpriteRenderer>().flipX = false;
-            GameObject findCloseBlock = GamaManager.Instance.FindCloseRightBlock();
+            GameObject findCloseBlock = GameManager.Instance.FindCloseRightBlock();
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
-            GamaManager.Instance.ChangeTag(findCloseBlock);
+            GameManager.Instance.ChangeTag(findCloseBlock);
         }
         else
         {
@@ -75,9 +75,9 @@ public class PlayerController : MonoBehaviour
     public void MoveBurnning()
     {
         string move = "";
-        if (GamaManager.Instance.burnning)
+        if (GameManager.Instance.burnning)
         {
-            move = GamaManager.Instance.CloseBlock(transform);
+            move = GameManager.Instance.CloseBlock(transform);
         }
         
         switch (move)

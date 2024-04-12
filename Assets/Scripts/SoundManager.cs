@@ -8,7 +8,7 @@ public class SoundManager : MonoBehaviour
 
     public AudioSource audioSource;
     public List<AudioClip> clipList;
-
+    public bool soundOnOff = true;
     private void Awake()
     {
         if (Instance == null)
@@ -26,7 +26,8 @@ public class SoundManager : MonoBehaviour
     }
     void Start()
     {
-        GetComponent<AudioSource>();
+        soundOnOff = true;
+        audioSource = GetComponent<AudioSource>();
     }
 
     /// <summary>
@@ -50,4 +51,24 @@ public class SoundManager : MonoBehaviour
         }
 
     }
+
+
+    /// <summary>
+    /// 음소거
+    /// </summary>
+    public void AudioStop()
+    {
+        audioSource.Stop();
+    }
+
+    /// <summary>
+    /// 음소거 풀기
+    /// </summary>
+    public void AudioPlay()
+    {
+        audioSource.Play();
+    }
+
+
+    
 }

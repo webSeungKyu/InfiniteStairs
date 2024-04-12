@@ -8,7 +8,7 @@ public class Item : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         SoundManager.Instance.AudioPlayOneShot(2);
-        GamaManager.Instance.GoldPlus();
+        GameManager.Instance.GoldPlus();
         MoveFall();
         Destroy(gameObject);
     }

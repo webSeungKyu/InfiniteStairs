@@ -8,9 +8,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class GamaManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    public static GamaManager Instance;
+    public static GameManager Instance;
     GameObject player;
     [Header("생성할 프리팹 Block")]
     public GameObject leftBlockPrefab;
@@ -46,6 +46,12 @@ public class GamaManager : MonoBehaviour
     [Header("일시정지 활성화")]
     public bool pause = false;
     public GameObject pauseImage;
+    [Header("음소거 버튼 이미지")]
+    public Sprite soundOnButtonImage;
+    public Sprite soundOffButtonImage;
+    [Header("종료 관련")]
+    public GameObject imageQuit;
+
 
 
 
@@ -249,6 +255,7 @@ public class GamaManager : MonoBehaviour
         energyBar.GetComponent<Image>().fillAmount = 0;
         GameObject.FindGameObjectWithTag("Menu").SetActive(false);
         InvokeRepeating("RemoveBlock", 10f, 20f);
+        imageQuit.SetActive(false);
     }
 
     /// <summary>
@@ -419,4 +426,48 @@ public class GamaManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 사운드 버튼 누르면 onOff 및 이미지 변경
+    /// </summary>
+    public void SoundButtonChange()
+    {
+        if (SoundManager.Instance.soundOnOff)
+        {
+            SoundManager.Instance.AudioStop();
+            SoundManager.Instance.soundOnOff = false;
+            GameObject.FindGameObjectWithTag("SoundButton").GetComponent<Image>().sprite = soundOffButtonImage;
+        }
+        else
+        {
+            SoundManager.Instance.AudioPlay();
+            SoundManager.Instance.soundOnOff = true;
+            GameObject.FindGameObjectWithTag("SoundButton").GetComponent<Image>().sprite = soundOnButtonImage;
+        }
+        
+    }
+
+    /// <summary>
+    /// 앱 종료 이미지 활성화 비활성화
+    /// </summary>
+    /// <param name="onOff">true는 활성화 / false는 비활성화</param>
+    public void QuitImage(bool onOff)
+    {
+        if (onOff)
+        {
+            imageQuit.SetActive(true);
+        }
+        else
+        {
+            imageQuit.SetActive(false);
+        }
+        
+    }
+
+    /// <summary>
+    /// 앱 종료
+    /// </summary>
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

@@ -8,6 +8,8 @@ TagManager:
   - LeftBlock
   - RightBlock
   - Menu
+  - SoundButton
+  - Quit
   layers:
   - Default
   - TransparentFX
