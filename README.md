@@ -25,7 +25,7 @@ https://github.com/webSeungKyu/InfiniteStairs/assets/112837427/8dabf080-2062-4e7
 [ Screen Math Mode : Match Width Or Height ] 고정 후 Match를 통해 상세 조정 가능
 
 
-<Dictionary>
+ -< Dictionary >
  - [정렬]
  - OrderBy(item => item.Key)
 
