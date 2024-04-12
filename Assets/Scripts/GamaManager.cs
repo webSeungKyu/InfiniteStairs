@@ -171,6 +171,26 @@ public class GamaManager : MonoBehaviour
     }
 
     /// <summary>
+    /// transform을 받아 가장 가까운 블럭을 찾아 string의 L 또는 R 로 반환해준다
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <returns></returns>
+    public string CloseBlock(Transform transform)
+    {
+        Transform leftPos = FindCloseLeftBlock().transform;
+        Transform rightPos = FindCloseRightBlock().transform;
+        if ((transform.position.y + leftPos.position.y) < (transform.position.y + rightPos.position.y))
+        {
+            return "L";
+        }
+        else
+        {
+            return "R";
+        }
+
+    }
+
+    /// <summary>
     /// GameObject의 태그를 변경할 때 사용
     /// </summary>
     /// <param name="gameObject">Block로 바뀐다</param>
@@ -378,11 +398,15 @@ public class GamaManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// 먹은 Gold 아이템 +1 그리고 갱신한다
+    /// </summary>
     public void GoldPlus()
     {
         gold++;
         goldText.text = gold.ToString();
     }
+
+
 
 }

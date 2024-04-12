@@ -23,10 +23,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space) && GamaManager.Instance.burnning)
         {
-            MovementLeft();
-            MovementRight();
-            MovementRight();
-            MovementLeft();
+            MoveBurnning();
         }
 
 
@@ -62,6 +59,23 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
             GamaManager.Instance.ChangeTag(findCloseBlock);
         }
+    }
 
+    /// <summary>
+    /// 가장 가까운 블럭을 향해 이동
+    /// </summary>
+    public void MoveBurnning()
+    {
+        string move = GamaManager.Instance.CloseBlock(transform);
+        switch (move)
+        {
+            case "L":
+                MovementLeft(); break;
+            case "R":
+                MovementRight(); break;
+            default: break;
+
+
+        }
     }
 }
