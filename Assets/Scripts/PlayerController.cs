@@ -43,6 +43,10 @@ public class PlayerController : MonoBehaviour
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
             GamaManager.Instance.ChangeTag(findCloseBlock);
         }
+        else
+        {
+            SoundManager.Instance.AudioPlayOneShot(1);
+        }
 
     }
     /// <summary>
@@ -58,6 +62,10 @@ public class PlayerController : MonoBehaviour
             GameObject findCloseBlock = GamaManager.Instance.FindCloseRightBlock();
             transform.position = new Vector2(findCloseBlock.transform.position.x, findCloseBlock.transform.position.y + 1);
             GamaManager.Instance.ChangeTag(findCloseBlock);
+        }
+        else
+        {
+            SoundManager.Instance.AudioPlayOneShot(1);
         }
     }
 
