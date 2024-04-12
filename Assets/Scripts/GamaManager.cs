@@ -249,6 +249,7 @@ public class GamaManager : MonoBehaviour
         InvokeRepeating("InfiniteBlockSetting", 1f, 1f);
         energyBar.GetComponent<Image>().fillAmount = 0;
         GameObject.FindGameObjectWithTag("Menu").SetActive(false);
+        InvokeRepeating("RemoveBlock", 10f, 20f);
     }
 
     /// <summary>
@@ -407,6 +408,16 @@ public class GamaManager : MonoBehaviour
         goldText.text = gold.ToString();
     }
 
-
+    /// <summary>
+    /// 태그 이름이 Block인 것을 찾아 지운다.
+    /// </summary>
+    void RemoveBlock()
+    {
+        GameObject[] gameObjects = GameObject.FindGameObjectsWithTag("Block");
+        foreach (GameObject gameObject in gameObjects)
+        {
+            Destroy(gameObject);
+        }
+    }
 
 }
