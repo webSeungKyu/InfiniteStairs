@@ -42,6 +42,7 @@ public class GamaManager : MonoBehaviour
     public Sprite clickButtonImage;
     [Header("일시정지 활성화")]
     public bool pause = false;
+    public GameObject pauseImage;
 
 
 
@@ -221,6 +222,7 @@ public class GamaManager : MonoBehaviour
         InstantiateBlock();
         InvokeRepeating("InfiniteBlockSetting", 1f, 1f);
         energyBar.GetComponent<Image>().fillAmount = 0;
+        GameObject.FindGameObjectWithTag("Menu").SetActive(false);
     }
 
     /// <summary>
@@ -291,11 +293,13 @@ public class GamaManager : MonoBehaviour
         {
             pause = false;
             Time.timeScale = 1f;
+            pauseImage.SetActive(false);
         }
         else
         {
             Time.timeScale = 0f;
             pause = true;
+            pauseImage.SetActive(true);
         }
     }
 
