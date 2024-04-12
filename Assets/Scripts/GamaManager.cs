@@ -6,6 +6,7 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.PlayerSettings;
 using Random = UnityEngine.Random;
 
 public class GamaManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class GamaManager : MonoBehaviour
     [Header("생성할 프리팹 Block")]
     public GameObject leftBlockPrefab;
     public GameObject rightBlockPrefab;
+    public GameObject goldPrefab;
 
     [Header("생성할 Block 개수 설정")]
     public int blockSetting = 50;
@@ -31,6 +33,8 @@ public class GamaManager : MonoBehaviour
     [Header("점수")]
     public int score;
     public TextMeshProUGUI scoreText;
+    public int gold;
+    public TextMeshProUGUI goldText;
     [Header("에너지 게이지")]
     public GameObject energyBar;
     public bool burnning = false;
@@ -206,11 +210,13 @@ public class GamaManager : MonoBehaviour
             {
                 pos = new Vector2(pos.x - 1.5f, pos.y + 1.5f);
                 Instantiate(leftBlockPrefab, pos, Quaternion.identity).name = i.ToString();
+                GoldRandomInstantiate(pos);
             }
             else
             {
                 pos = new Vector2(pos.x + 1.5f, pos.y + 1.5f);
                 Instantiate(rightBlockPrefab, pos, Quaternion.identity).name = i.ToString();
+                GoldRandomInstantiate(pos);
             }
             totalBlockNum++;
 
@@ -244,14 +250,28 @@ public class GamaManager : MonoBehaviour
                 {
                     pos = new Vector2(pos.x - 1.5f, pos.y + 1.5f);
                     Instantiate(leftBlockPrefab, pos, Quaternion.identity).name = i.ToString();
+                    GoldRandomInstantiate(pos);
                 }
                 else
                 {
                     pos = new Vector2(pos.x + 1.5f, pos.y + 1.5f);
                     Instantiate(rightBlockPrefab, pos, Quaternion.identity).name = i.ToString();
+                    GoldRandomInstantiate(pos);
                 }
                 totalBlockNum++;
             }
+        }
+    }
+
+    /// <summary>
+    /// 25% 확률로 골드 아이템을 생성
+    /// </summary>
+    /// <param name="pos">생성할 위치(위에 생성 예정)</param>
+    void GoldRandomInstantiate(Vector2 pos)
+    {
+        if (Random.Range(0, 4) == 3)
+        {
+            Instantiate(goldPrefab, new Vector2(pos.x, pos.y + 1), Quaternion.identity);
         }
     }
 
@@ -358,5 +378,11 @@ public class GamaManager : MonoBehaviour
 
     }
 
+
+    public void GoldPlus()
+    {
+        gold++;
+        goldText.text = gold.ToString();
+    }
 
 }
