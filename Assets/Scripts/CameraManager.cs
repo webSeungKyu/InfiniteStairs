@@ -5,6 +5,12 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     GameObject player;
+
+    private void Awake()
+    {
+        Screen.SetResolution(1080, 1920, true);
+    }
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
