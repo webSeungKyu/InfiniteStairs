@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
         {
             MovementRight();
         }
-        if (Input.GetKeyDown(KeyCode.Space) && GamaManager.Instance.burnning)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             MoveBurnning();
         }
@@ -74,14 +74,19 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void MoveBurnning()
     {
-        string move = GamaManager.Instance.CloseBlock(transform);
+        string move = "";
+        if (GamaManager.Instance.burnning)
+        {
+            move = GamaManager.Instance.CloseBlock(transform);
+        }
+        
         switch (move)
         {
             case "L":
                 MovementLeft(); break;
             case "R":
                 MovementRight(); break;
-            default: break;
+            default: SoundManager.Instance.AudioPlayOneShot(1); break;
 
 
         }

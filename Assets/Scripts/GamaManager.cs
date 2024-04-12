@@ -364,7 +364,7 @@ public class GamaManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator Burning()
     {
-        energyBar.GetComponent<Image>().color = Color.red;
+        energyBar.GetComponent<Image>().color = Color.green;
         yield return new WaitForSeconds(10);
         energyBar.GetComponent<Image>().fillAmount = 0;
         energyBar.GetComponent<Image>().color = Color.white;
